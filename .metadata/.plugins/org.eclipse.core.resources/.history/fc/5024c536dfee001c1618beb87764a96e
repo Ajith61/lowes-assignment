@@ -1,0 +1,5 @@
+package com.lowes.productservice.controller;
+
+public class ProductController {
+
+}

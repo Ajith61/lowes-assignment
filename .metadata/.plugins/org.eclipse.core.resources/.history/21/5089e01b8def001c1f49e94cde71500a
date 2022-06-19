@@ -1,0 +1,22 @@
+package com.lowes.productservice;
+
+import com.lowes.productservice.model.dto.ProductDto;
+
+public class ProductModelConverter {
+	
+	// Convert DTO to DAO model
+	public static ProductDao convertUserRequestModelToUserRecord(ProductDto productDto) {
+		UserRecord userRecord = null;
+		if (userRequestModel != null) {
+			userRecord = new UserRecord();
+			userRecord.setUserName(userRequestModel.getUserName());
+			userRecord.setUserEmail(userRequestModel.getUserEmail());
+			userRecord.setCountryCode(userRequestModel.getCountryCode());
+			userRecord.setUserMobile(userRequestModel.getMobileNumber());
+			userRecord.setUserPassword(userRequestModel.getUserPassword());
+			//userRecord.setDeviceId(userRequestModel.getDeviceUUID());
+		}
+		return userRecord;
+	}
+
+}

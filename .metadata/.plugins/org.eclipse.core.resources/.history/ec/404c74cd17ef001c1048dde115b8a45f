@@ -1,0 +1,55 @@
+package com.lowes.inventoryservice.model.dao;
+
+import java.math.BigDecimal;
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document(value = "inventory_master")
+public class Inventory {
+	@Id
+	private String id;
+	private String productId;
+	private long stockCount;
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public long getStockCount() {
+		return stockCount;
+	}
+
+	public void setStockCount(long stockCount) {
+		this.stockCount = stockCount;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public BigDecimal getPrice() {
+		return price;
+	}
+
+	public void setPrice(BigDecimal price) {
+		this.price = price;
+	}
+
+}

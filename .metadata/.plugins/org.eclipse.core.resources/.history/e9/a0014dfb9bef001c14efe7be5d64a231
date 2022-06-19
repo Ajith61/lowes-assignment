@@ -1,0 +1,9 @@
+package com.lowes.productservice.client;
+
+import org.springframework.web.bind.annotation.GetMapping;
+
+@FeignClient(name = "inventory-service")
+public interface InventoryClient {
+	@GetMapping("/api/inventory/")
+	Boolean checkStock();
+}

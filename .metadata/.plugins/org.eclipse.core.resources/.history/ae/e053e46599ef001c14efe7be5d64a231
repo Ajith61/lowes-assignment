@@ -1,0 +1,77 @@
+package com.lowes.productservice.service;
+
+import java.util.List;
+
+import javax.validation.Valid;
+
+import com.lowes.productservice.model.dao.ProductDao;
+import com.lowes.productservice.model.dto.ProductDto;
+import com.lowes.productservice.model.dto.ProductModelConverter;
+import com.lowes.productservice.repository.ProductRepository;
+import com.lowes.productservice.util.constants.ApplicationStatus;
+import com.lowes.productservice.util.model.ResponseModel;
+import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+
+@Service
+public class ProductService {
+	
+	@Autowired
+	private ProductRepository productRespository;
+
+	public ResponseModel<ProductDto> createProduct(@Valid ProductDto newProductDto) {
+		try {
+			ProductDao productDao = ProductModelConverter.convertProductDtoToDao(newProductDto);
+			ProductDao resultProductDao = productRespository.findProductByProductId(productDao.getProductId());
+			
+			if (resultProductDao!=null) {
+				return new ResponseModel<ProductDto>(ApplicationStatus.PRODUCT_ALREADY_REGISTERED.getStatusCode(),
+						ApplicationStatus.PRODUCT_ALREADY_REGISTERED.getStatusMessage(), new ProductDto());
+			} else {
+				ProductDao insertedProductDao = productRespository.save(productDao);
+				if (insertedProductDao!=null) {
+					return new ResponseModel<ProductDto>(ApplicationStatus.CREATED.getStatusCode(),
+							ApplicationStatus.CREATED.getStatusMessage(), null);
+				} 
+				else {
+					return new ResponseModel<ProductDto>(ApplicationStatus.ERROR.getStatusCode(),
+							ApplicationStatus.ERROR.getStatusMessage(), null);
+				}
+			}
+		} catch (Exception ex) {
+			return new ResponseModel<ProductDto>(ApplicationStatus.ERROR.getStatusCode(), ex.getLocalizedMessage(),
+					null);
+		}
+	}
+
+	public ResponseModel<List<ProductDto>> getAllProducts() {
+		try {
+			List<ProductDao> productLists = productRespository.findAll();
+			var target = origList.ConvertAll(x => (List<ProductDto>)x);
+			List<ProductDto> targetList = productLists.Select(s=> new List<ProductDto>(s)).ToList(); 
+			List<ProductDto> targetList = new List<target>(productLists.Cast<ProductDto>);
+			
+			List<ProductDto> resultObjects = productLists.stream()
+			        .collect(Collectors.groupingBy(Sample::getId,
+			                Collectors.mapping(a -> new User(a.getUserName(), a.getAddress(), a.getEmail()),
+			                        Collectors.toList())))
+			        .entrySet().stream()
+			        .map(e -> new ResultObject(e.getKey(), e.getValue()))
+			        .collect(Collectors.toList()
+			
+			
+			if (!CollectionUtils.isEmpty(productLists)) {
+				return new ResponseModel<List<ProductDto>>(ApplicationStatus.PRODUCT_ALREADY_REGISTERED.getStatusCode(),
+						ApplicationStatus.PRODUCT_ALREADY_REGISTERED.getStatusMessage(), null);
+			} else {
+					return new ResponseModel<List<ProductDto>>(ApplicationStatus.ERROR.getStatusCode(),
+							ApplicationStatus.ERROR.getStatusMessage(), null);
+				}
+		} catch (Exception ex) {
+			return new ResponseModel<List<ProductDto>>(ApplicationStatus.ERROR.getStatusCode(), ex.getLocalizedMessage(),
+					null);
+		}
+	}
+
+}

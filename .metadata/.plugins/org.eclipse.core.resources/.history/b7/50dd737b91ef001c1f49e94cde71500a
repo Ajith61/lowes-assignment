@@ -1,0 +1,5 @@
+package com.lowes.productservice.util.constants;
+
+public class ApplicationStatus {
+
+}

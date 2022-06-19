@@ -1,0 +1,14 @@
+package com.lowes.notificationservice.service;
+
+public class NotificationService {
+	
+	
+
+	public void processOrderStatus(String payload) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
+
+}

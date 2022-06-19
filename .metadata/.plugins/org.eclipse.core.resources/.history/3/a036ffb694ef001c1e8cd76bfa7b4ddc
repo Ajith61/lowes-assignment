@@ -1,0 +1,18 @@
+spring.application.name=api-gateway
+# to integrate with eureka server
+spring.cloud.gateway.discovery.locator.enabled=true
+# to accept lower case
+spring.cloud.gateway.discovery.locator.lower-case-service-id=true
+#load balancer
+spring.cloud.loadbalancer.ribbon.enabled=false
+# id and uri
+spring.cloud.gateway.routes[0].id=product-service
+# instead of port mentioned the name here
+spring.cloud.gateway.routes[0].uri=lb://product-service
+#path
+spring.cloud.gateway.routes[0].predicates[0]=Path=/v1.0.0/product/
+spring.cloud.gateway.routes[1].id=order-service
+spring.cloud.gateway.routes[1].uri=lb://order-service
+spring.cloud.gateway.routes[1].predicates[0]=Path=/api/order
+# to eureka server uniquely identify the api gateway service
+eureka.instance.instance-id=${spring.application.name}-${random.uuid}

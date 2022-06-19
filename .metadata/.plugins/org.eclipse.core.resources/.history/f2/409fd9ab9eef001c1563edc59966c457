@@ -1,0 +1,11 @@
+package com.lowes.productservice.client;
+
+import org.springframework.cloud.netflix.feign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+//@FeignClient(name = "inventory-service")
+public interface InventoryClient {
+    @GetMapping("/v1.0.0/inventory/create")
+    void saveStock(@RequestParam String productId,@RequestParam int productStock);
+}

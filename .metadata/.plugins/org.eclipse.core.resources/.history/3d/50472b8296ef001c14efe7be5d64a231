@@ -1,0 +1,31 @@
+package com.lowes.productservice.model.dto;
+
+import com.lowes.productservice.model.dao.ProductDao;
+
+public class ProductModelConverter {
+	
+	// Convert DTO to DAO model
+	public static ProductDao convertProductRequestModelToProductRecord(ProductDto productDto) {
+		ProductDao productDao = null;
+		if (productDto != null) {
+			productDao = new ProductDao();
+			productDao.setProductId(productDto.getProductId());
+			productDao.setProductName(productDto.getProductName());
+			productDao.setProductPrice(productDto.getProductPrice());
+		}
+		return productDao;
+	}
+	
+	// Convert DAO to DTO model
+		public static ProductDao convertProductRequestModelToProductRecord(ProductDao productDao) {
+			ProductDto productDto = null;
+			if (productDao != null) {
+				productDto = new ProductDto();
+				productDto.setProductId(productDto.getProductId());
+				productDto.setProductName(productDto.getProductName());
+				productDto.setProductPrice(productDto.getProductPrice());
+			}
+			return productDto;
+		}
+
+}

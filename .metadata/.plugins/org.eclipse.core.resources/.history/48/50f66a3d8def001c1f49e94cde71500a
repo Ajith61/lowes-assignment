@@ -1,0 +1,18 @@
+package com.lowes.productservice;
+
+import com.lowes.productservice.model.dao.ProductDao;
+import com.lowes.productservice.model.dto.ProductDto;
+
+public class ProductModelConverter {
+	
+	// Convert DTO to DAO model
+	public static ProductDao convertUserRequestModelToUserRecord(ProductDto productDto) {
+		ProductDao productDao = null;
+		if (productDao != null) {
+			productDao = new ProductDao();
+			productDao.setName(productDto.s);
+		}
+		return userRecord;
+	}
+
+}

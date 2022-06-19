@@ -1,0 +1,52 @@
+package com.lowes.productservice.service;
+
+import java.util.List;
+
+import javax.validation.Valid;
+
+import com.lowes.productservice.model.dao.ProductDao;
+import com.lowes.productservice.model.dto.ProductDto;
+import com.lowes.productservice.model.dto.ProductModelConverter;
+import com.lowes.productservice.repository.ProductRepository;
+import com.lowes.productservice.util.constants.ApplicationStatus;
+import com.lowes.productservice.util.model.ResponseModel;
+import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+
+@Service
+public class ProductService {
+	
+	@Autowired
+	private ProductRepository productRespository;
+
+	public ResponseModel<ProductDto> createProduct(@Valid ProductDto newProductDto) {
+		try {
+			ProductDao productDao = ProductModelConverter.convertUserRequestModelToUserRecord(newProductDto);
+			ProductDao resultProductDao = productRespository.findProductByProductName(productDao.getProductName());
+			
+			if (true) {
+				return new ResponseModel<ProductDto>(ApplicationStatus.PRODUCT_ALREADY_REGISTERED.getStatusCode(),
+						ApplicationStatus.PRODUCT_ALREADY_REGISTERED.getStatusMessage(), new ProductDto());
+			} else {
+				int statusCode = 200;
+				if (statusCode == ApplicationStatus.VALID_RESPONSE.getStatusCode()) {
+					return new ResponseModel<ProductDto>(ApplicationStatus.ERROR.getStatusCode(),
+							ApplicationStatus.ERROR.getStatusMessage(), null);
+				} 
+				else {
+					return new ResponseModel<ProductDto>(ApplicationStatus.ERROR.getStatusCode(),
+							ApplicationStatus.ERROR.getStatusMessage(), null);
+				}
+			}
+		} catch (Exception ex) {
+			return new ResponseModel<ProductDto>(ApplicationStatus.ERROR.getStatusCode(), ex.getLocalizedMessage(),
+					new ProductDto());
+		}
+	}
+
+	public ResponseModel<List<ProductDto>> getAllProducts() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

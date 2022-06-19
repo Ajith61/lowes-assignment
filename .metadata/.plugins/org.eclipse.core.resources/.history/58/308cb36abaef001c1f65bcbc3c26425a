@@ -1,0 +1,20 @@
+package com.lowes.notificationservice.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.lowes.notificationservice.repository.OrderRepository;
+
+
+public class NotificationService {
+	
+	 @Autowired
+		private  OrderRepository orderRepository;
+
+	public void processOrderStatus(String payload) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
+
+}

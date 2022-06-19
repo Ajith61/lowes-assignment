@@ -1,0 +1,6 @@
+# default port for config server
+server.port=8888
+spring.application.name= configuration-server
+spring.cloud.config.server.git.uri=https://github.com/Ajith61/microservices-config-server
+spring.cloud.config.server.git.username=ajithz2307@gmail.com
+spring.cloud.config.server.git.password=Material@1998

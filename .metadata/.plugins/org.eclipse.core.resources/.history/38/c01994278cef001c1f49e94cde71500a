@@ -1,0 +1,8 @@
+package com.lowes.productservice.model.dto;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class ProductDto {
+
+	
+}

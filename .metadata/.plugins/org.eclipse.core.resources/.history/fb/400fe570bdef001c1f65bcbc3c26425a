@@ -1,0 +1,6 @@
+server.port =8003
+spring.application.name= inventory-service
+spring.data.mongodb.database=product
+spring.cloud.loadbalancer.ribbon.enabled=true
+spring.cloud.stream.bindings.notificationEventSupplier-in-0.destination=notification
+spring.data.mongodb.uri: mongodb://localhost:27017

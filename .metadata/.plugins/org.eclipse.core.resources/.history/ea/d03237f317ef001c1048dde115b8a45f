@@ -1,0 +1,5 @@
+package com.lowes.inventoryservice.model.dto;
+
+public class InventoryDto {
+
+}

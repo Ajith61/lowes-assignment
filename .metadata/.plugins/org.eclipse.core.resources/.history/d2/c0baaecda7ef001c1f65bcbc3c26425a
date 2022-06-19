@@ -1,0 +1,32 @@
+package com.lowes.inventoryservice.service;
+import org.springframework.stereotype.Service;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lowes.inventoryservice.model.dao.InventoryDao;
+import com.lowes.inventoryservice.repository.InventoryRepository;
+
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
+@Service
+public class InventoryService {
+
+	@Autowired
+	InventoryRepository inventoryRepository;
+	private Logger logger = LoggerFactory.getLogger(InventoryService.class);
+	public void saveProductInventory(String payload) throws JsonMappingException, JsonProcessingException {
+		 ObjectMapper mapper = new ObjectMapper();
+	        
+	        InventoryDao inventoryDao = mapper.readValue(payload, InventoryDao.class);
+	        if (inventoryDao!=null) {
+	        	inventoryRepository.save(inventoryDao);
+	        	
+	        }
+		 
+	}
+
+}

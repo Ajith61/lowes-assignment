@@ -1,0 +1,18 @@
+package com.lowes.orderservice.service;
+
+import javax.validation.Valid;
+
+import org.springframework.stereotype.Service;
+
+import com.lowes.orderservice.model.OrderDto;
+import com.lowes.orderservice.util.model.ResponseModel;
+
+@Service
+public class OrderService {
+
+	public ResponseModel<OrderDto> createProduct(@Valid OrderDto orderDto) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

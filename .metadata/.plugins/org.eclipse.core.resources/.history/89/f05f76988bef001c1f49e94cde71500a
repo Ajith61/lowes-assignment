@@ -1,0 +1,8 @@
+package com.lowes.productservice.repository;
+
+import org.springframework.data.mongodb.repository.MongoRepository;
+
+import com.lowes.productservice.model.ProductDao;
+
+public interface ProductRepository extends MongoRepository<ProductDao, String> {
+}

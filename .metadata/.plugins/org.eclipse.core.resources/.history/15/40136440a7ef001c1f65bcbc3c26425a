@@ -1,0 +1,20 @@
+package com.lowes.inventoryservice.service;
+import org.springframework.stereotype.Service;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lowes.inventoryservice.model.dao.InventoryDao;
+
+@Service
+public class InventoryService {
+
+	public Object saveProductInventory(String payload) throws JsonMappingException, JsonProcessingException {
+		 ObjectMapper mapper = new ObjectMapper();
+	        
+	        InventoryDao inventoryDao = mapper.readValue(payload, InventoryDao.class);
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

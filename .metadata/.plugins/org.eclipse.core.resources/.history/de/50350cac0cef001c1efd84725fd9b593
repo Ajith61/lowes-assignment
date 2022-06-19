@@ -1,0 +1,5 @@
+package com.lowes.inventoryservice.repository;
+
+public class InventoryRepository {
+
+}

@@ -1,0 +1,8 @@
+package com.lowes.orderservice;
+
+public class Snippet {
+	public static void main(String[] args) {
+		<maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
+	}
+}
+

@@ -1,0 +1,15 @@
+package com.lowes.orderservice.client;
+
+
+
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.stereotype.Service;
+
+@FeignClient(name = "inventory-service")
+@Service
+public interface InventoryClient {
+    @GetMapping("/api/inventory/{productCode}")
+    Boolean checkStock(@PathVariable String skuCode);
+}

@@ -1,0 +1,5 @@
+package com.lowes.notificationservice.model;
+
+public class OrderDao {
+
+}

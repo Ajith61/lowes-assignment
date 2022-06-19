@@ -1,0 +1,49 @@
+package com.lowes.orderservice.service;
+
+import javax.validation.Valid;
+
+import org.springframework.cloud.circuitbreaker.resilience4j.Resilience4JCircuitBreaker;
+import org.springframework.messaging.support.MessageBuilder;
+import org.springframework.stereotype.Service;
+
+import com.lowes.orderservice.model.OrderDao;
+import com.lowes.orderservice.model.OrderDto;
+import com.lowes.orderservice.util.model.ResponseModel;
+
+@Service
+public class OrderService {
+
+	public ResponseModel<OrderDto> createProduct(@Valid OrderDto orderDto) {
+		/*
+		 * int a=0; boolean productsInStock = inventoryClient.checkStock(); boolean ab =
+		 * productsInStock; return "success";
+		 */
+	        
+	        Resilience4JCircuitBreaker circuitBreaker = circuitBreakerFactory.create("inventory");
+			 
+			  java.util.function.Supplier<Boolean> booleanSupplier = () -> inventoryClient.checkStock();
+		       boolean productsInStock = circuitBreaker.run(booleanSupplier, throwable -> handleErrorCase());
+			//boolean productsInStock = inventoryClient.checkStock();
+
+			if (productsInStock) {
+				OrderDao order = new OrderDao();
+				order.setId((long) 1);
+				streamBridge.send("notificationEventSupplier-out-0", MessageBuilder.withPayload(order.getId()).build());
+				// order.setOrderLineItems(orderDto.getOrderLineItemsList()); //
+				// order.setOrderNumber(UUID.randomUUID().toString());
+
+				// orderRepository.save(order); //
+				// log.info("Sending Order Details with Order Id {} to Notification Service",
+				// order.getId()); //streamBridge.send("notificationEventSupplier-out-0",
+				// MessageBuilder.withPayload(order.getId()).build());
+				return "Order Place Successfully";
+			} else {
+				return "Order Failed - One of the Product in your Order is out of stock";
+			}
+	}
+	
+	private Boolean handleErrorCase() {
+		return false;
+	}
+
+}

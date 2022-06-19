@@ -1,0 +1,5 @@
+package com.lowes.productservice.model.dto;
+
+public class ProductDto {
+
+}
