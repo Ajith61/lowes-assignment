@@ -20,8 +20,7 @@ public class NotificationService {
         	if (orderDao.isPresent()) {
         		orderDao.get().setOrderStatus("PROCESSED");
         		orderRepository.save(orderDao.get());
-        	}
-        	
+        	}        	
         }
 	}
 	

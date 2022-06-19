@@ -16,49 +16,51 @@ import com.lowes.orderservice.repository.OrderRepository;
 import com.lowes.orderservice.util.constants.ApplicationStatus;
 import com.lowes.orderservice.util.model.ResponseModel;
 
-
 @Service
 public class OrderService {
-	
-	 @Autowired
-		private  OrderRepository orderRepository;
-	   @Autowired
-		private  InventoryClient inventoryClient;
-	    @Autowired
-	    private  Resilience4JCircuitBreakerFactory circuitBreakerFactory;
-	    @Autowired
-	    private  StreamBridge streamBridge;
+
+	@Autowired
+	private OrderRepository orderRepository;
+	@Autowired
+	private InventoryClient inventoryClient;
+	@Autowired
+	private Resilience4JCircuitBreakerFactory circuitBreakerFactory;
+	@Autowired
+	private StreamBridge streamBridge;
 
 	public ResponseModel<OrderDto> createOrder(@Valid OrderDto orderDto) {
 		try {
-	        Resilience4JCircuitBreaker circuitBreaker = circuitBreakerFactory.create("inventory");
-			 
-			  java.util.function.Supplier<Boolean> booleanSupplier = () -> inventoryClient.checkStock(orderDto.getProductId());
-		       boolean productsInStock = circuitBreaker.run(booleanSupplier, throwable -> handleErrorCase());
+			// circuit breaker initialization
+			Resilience4JCircuitBreaker circuitBreaker = circuitBreakerFactory.create("inventory");
+			// check stock
+			java.util.function.Supplier<Boolean> booleanSupplier = () -> inventoryClient
+					.checkStock(orderDto.getProductId());
+			// run feign client with circuit breaker if it failes then return
+			// handleErrorCase()
+			boolean productsInStock = circuitBreaker.run(booleanSupplier, throwable -> handleErrorCase());
+			// if stock exists
 			if (productsInStock) {
-				OrderDao orderDao =  new OrderDao();
+				OrderDao orderDao = new OrderDao();
 				BeanUtils.copyProperties(orderDto, orderDao);
-				if(orderDao!=null) {
+				if (orderDao != null) {
 					orderDao.setOrderStatus(ApplicationStatus.PLACED.getStatusMessage());
 					OrderDao resultOrderDao = orderRepository.save(orderDao);
-				streamBridge.send("notificationEventSupplier-out-0", MessageBuilder.withPayload(resultOrderDao.getId()).build());
-				
+					// send message to notification-service
+					streamBridge.send("notificationEventSupplier-out-0",
+							MessageBuilder.withPayload(resultOrderDao.getId()).build());
+
 				}
 				return new ResponseModel<OrderDto>(ApplicationStatus.CREATED.getStatusCode(),
 						ApplicationStatus.CREATED.getStatusMessage(), null);
-				}
-			else
-			{
+			} else {
 				return new ResponseModel<OrderDto>(ApplicationStatus.NO_STOCK.getStatusCode(),
-						ApplicationStatus.NO_STOCK.getStatusMessage(), null);	
+						ApplicationStatus.NO_STOCK.getStatusMessage(), null);
 			}
-			}
-		catch (Exception ex) {
-			return new ResponseModel<OrderDto>(ApplicationStatus.ERROR.getStatusCode(), ex.getLocalizedMessage(),
-					null);
+		} catch (Exception ex) {
+			return new ResponseModel<OrderDto>(ApplicationStatus.ERROR.getStatusCode(), ex.getLocalizedMessage(), null);
 		}
 	}
-	
+
 	private Boolean handleErrorCase() {
 		return false;
 	}

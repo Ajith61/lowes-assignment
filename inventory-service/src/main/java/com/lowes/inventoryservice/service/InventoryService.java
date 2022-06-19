@@ -24,13 +24,14 @@ public class InventoryService {
 	        
 	        InventoryDao inventoryDao = mapper.readValue(payload, InventoryDao.class);
 	        if (inventoryDao!=null) {
+	        	//save in a inventory table
 	        	inventoryRepository.save(inventoryDao);
 	        	logger.info("Inventory Data Saved");
 	        }
 		 
 	}
 	public Boolean getProductStockCount(String productId) {
-		// log.info("Checking stock for product with skucode - " + skuCode);
+		// check if the stock is exist or not
 		Optional<InventoryDao> inventorys = inventoryRepository.findByProductId(productId);
 		InventoryDao inventory = inventorys.get();
 		return inventory.getStockCount() > 0;
@@ -39,8 +40,7 @@ public class InventoryService {
 		InventoryDao inventoryDao = new InventoryDao();
 		inventoryDao.setProductId(productId);
 		inventoryDao.setStockCount(stockCount);
-		inventoryRepository.save(inventoryDao);
-		
+		inventoryRepository.save(inventoryDao);	
 	}
 
 }

@@ -24,9 +24,9 @@ public class InventoryServiceApplication {
     public Consumer<Message<String>> notificationEventSupplier() {
         return message -> {
 			try {
+				//process message (after adding product,product-service send data to this stream to add a data in a inventory table)
 				new InventoryService().saveProductInventory(message.getPayload());
 			} catch (JsonProcessingException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		};

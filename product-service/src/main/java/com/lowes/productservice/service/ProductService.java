@@ -30,6 +30,7 @@ public class ProductService {
 		try {
 			ProductDao productDao =  new ProductDao();
 			BeanUtils.copyProperties(newProductDto, productDao);
+			//check data already exists
 			ProductDao resultProductDao = productRespository.findProductByProductId(productDao.getProductId());
 			
 			if (resultProductDao!=null) {
@@ -60,6 +61,7 @@ public class ProductService {
 
 	public ResponseModel<List<ProductDto>> getAllProducts() {
 		try {
+			// get all product
 			List<ProductDao> productLists = productRespository.findAll();
 			if (!CollectionUtils.isEmpty(productLists)) {
 				
